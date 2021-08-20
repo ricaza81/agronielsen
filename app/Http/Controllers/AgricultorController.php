@@ -22,6 +22,7 @@ use App\TipoPublicaciones;
 use App\Proyectos;
 use App\Prospectos;
 use App\AgriFincas;
+use App\AgriFincasCompartidas;
 use App\AgriFincasMedicion;
 use App\AgriAgricultores;
 use App\AgriVisitasTecnicas;
@@ -473,6 +474,100 @@ function listado_fincas_agricultores()
           ->with("cant_visitas",$cant_visitas)
           //->with("cant_proyectos",$cant_proyectos)*/
           ->with("cant_agricultores",$cant_agricultores)
+          //->with("cant_seguimientos",$cant_seguimientos)
+          //->with("cant_finalizados",$cant_finalizados)*/
+          //->with("asesor",$asesor)
+          ->with("date",$date)
+        //  ->with("howOldAmI",$howOldAmI)
+          ->with("officialDate",$officialDate)
+          ->with("usuario", $usuarioactual )
+     //   ->with("events",$events)
+          ->with("events_day",$events_day)
+       // ->with("total_areas",$total_areas)
+          ->with("areas",$areas)
+          ->with("fecha",$fecha);
+ 
+    }
+
+     function listado_fincas_agricultores_compartidas()
+    { 
+          $msj="";
+          $idusuario=\Auth::user()->id;
+          /*$asesor=User::all();*/
+          $fincas= AgriFincasCompartidas::where('id_usuario_compartido','=',$idusuario)->get();
+          //$departamento= AgriFincas::where('idUsuario','=',$idusuario)->select('id_ciudad')->get()->first();
+          //$ndepto=Departamentos::find($departamento->id_ciudad);
+          //$nombredepto=$ndepto->departamento;
+          
+          
+          //Nombre finca//
+          // $id_finca1= AgriFincasCompartidas::where('id_usuario_compartido','=',$idusuario)->select('id_finca')->get()->first();
+          //      $nfinca=AgriFincas::find($id_finca1->id_finca);
+          //        $nombrefinca=$nfinca->finca;
+                  //$nombrefinca=$nfinca->finca;
+          //Nombre finca//
+
+           //Nombre cultivo//
+           //$cultivo= AgriFincasCompartidas::where('id_usuario_compartido','=',$idusuario)->select('idCultivo')->get()->first();
+           //       $ncultivo=Cultivos::find($cultivo->idCultivo);
+           //         $nombrecultivo=$ncultivo->cultivo;
+          //Nombre cultivo//
+          
+          
+          //$areas_sembradas= AgroCensoDane::where('id_depto','=',$departamento)->get();
+          //$areas_totales_sembradas=DB::table('dane_censo')->where('id_depto','=',$departamento->id_ciudad)->where('id_cultivo','=',$cultivo->idCultivo)->sum('area_sembrada');
+          /*$agricultores1= array('$fincas->delagricultor;');
+          $agricultores=AgriAgricultores::where('idUsuario','=',$idusuario)->get();
+          $visitastecnicas=AgriVisitasTecnicas::where('id_usuario','=',$idusuario)->get();
+          $cant_visitas=count($visitastecnicas);
+          $prospectos=Prospectos::all();
+          $seguimientos=Visitas::all();
+          $finalizados=Prospectos::where("stage","=",3)->get();
+          $cant_fincas=count($fincas);
+          $agricultores=AgriAgricultores::where('idUsuario','=',$idusuario)->get();
+          $cant_agricultores=count($agricultores);
+          /*$cant_proyectos=count($prospectos);
+          $cant_seguimientos=count($seguimientos);
+          $cant_finalizados=count($finalizados);
+          $asesor=User::all();*/
+          $usuarioactual=\Auth::user();
+          $areas = DB::table('agri_fincas')->where('idUsuario','=',$idusuario)->sum('hectareas');
+
+          /*Variables notificacion tareas/seguimientos del dia*/
+          $fecha=date('Y-m-d');
+          
+          $events= Eventos::where('idUsuario','=',$idusuario)->where('fecha_inicio','=',$fecha)->get();
+          $events_day=count($events);
+          $date = Carbon::now();
+        //  $fecha_insercion=$prospectos->created_at;
+       //   $howOldAmI = Carbon::createFromDate($fecha_insercion)->age;
+          $officialDate = Carbon::now()->toRfc2822String();
+
+    
+
+       
+          return view("listados.agricultor.listado_fincas_agricultores_compartidas")
+
+          ->with("msj",$msj)
+          //->with("prospectos",$prospectos)
+          //->with("agricultores",$agricultor
+          //->with("nfinca",$nfinca)
+          //->with("departamento",$departamento)
+          //->with("cultivo",$cultivo)
+          /*primerdatovariable*/
+          //->with("id_finca1",$id_finca1)
+          //->with("nfinca",$nfinca)
+          //->with("nombrefinca",$nombrefinca)
+          //->with("nombrefinca",$nombrefinca)
+          //->with("nombrecultivo",$nombrecultivo)
+          /*primerdatovariable*/
+          //->with("nombredepto",$nombredepto)
+          ->with("fincas",$fincas)
+          /* ->with("areas_totales_sembradas",$areas_totales_sembradas)*/
+          //->with("cant_fincas",$cant_fincas)
+          //->with("cant_visitas",$cant_visitas)
+          //->with("cant_proyectos",$cant_proyectos)*/
+          //->with("cant_agricultores",$cant_agricultores)
           //->with("cant_seguimientos",$cant_seguimientos)
           //->with("cant_finalizados",$cant_finalizados)*/
           //->with("asesor",$asesor)
